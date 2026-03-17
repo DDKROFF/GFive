@@ -1,4 +1,4 @@
-{
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -30,7 +30,6 @@ body {
     padding: 0 40px;
 }
 
-/* Навигация */
 .navbar {
     padding: 24px 0;
     display: flex;
@@ -73,7 +72,6 @@ body {
     color: var(--neon-blue);
 }
 
-/* Hero */
 .hero {
     padding: 80px 0 100px;
     background: radial-gradient(circle at 70% 30%, #1b2a3f, #0c0e11 70%);
@@ -165,7 +163,7 @@ body {
     z-index: 2;
 }
 
-/* Новости */
+/* БЛОК НОВОСТЕЙ */
 .news-section {
     padding: 80px 0;
     background-color: #0a0c0e;
@@ -184,6 +182,7 @@ body {
     background-clip: text;
 }
 
+/* Карточка новости (фото + текст) — базовая */
 .news-card {
     display: flex;
     gap: 50px;
@@ -201,6 +200,7 @@ body {
     box-shadow: 0 30px 50px -20px #1e5bbf80;
 }
 
+/* инвертированная версия (картинка справа) */
 .news-card.inverted {
     flex-direction: row-reverse;
 }
@@ -279,11 +279,9 @@ body {
     font-weight: 500;
     font-size: 14px;
     border: 1px solid #2b7fff40;
-    width: fit-content;
-    margin-bottom: 16px;
 }
 
-/* Карта */
+/* КАРТА */
 .map-section {
     padding: 40px 0 80px;
 }
@@ -326,7 +324,7 @@ body {
     color: var(--neon-blue);
 }
 
-/* Футер */
+/* ФУТЕР (техническая информация для клуба) */
 .footer {
     background-color: #0c0f12;
     border-top: 1px solid #262b30;
@@ -383,26 +381,23 @@ body {
     color: #5f6f7e;
     transition: 0.2s;
 }
-
 .social-icons i:hover {
     color: var(--neon-blue);
 }
 
-/* === АНИМАЦИИ === */
-.fade-in {
-    opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 0.8s ease, transform 0.8s ease;
+/* Разные утилиты */
+.glow-text {
+    color: var(--neon-blue);
+}
+hr {
+    border: 0.5px solid #2a2f34;
+    margin: 20px 0;
 }
 
-.fade-up {
-    opacity: 0;
-    transform: translateY(40px);
-    transition: opacity 0.8s ease, transform 0.8s ease;
+.orange:after {
+    color: #BF9B37;
 }
+.blue {
 
-.fade-in.visible,
-.fade-up.visible {
-    opacity: 1;
-    transform: translateY(0);
+    color: #3766b2;
 }
