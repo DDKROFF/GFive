@@ -1,102 +1,674 @@
-{% load static %}
+<!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GFive — компьютерный клуб</title>
-    <!-- Подключаем Font Awesome для иконок (опционально, для красоты) -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>GFive — Киберспортивный клуб</title>
+    <!-- Font Awesome 6 (free) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="stylesheet" href="{% static 'index.css' %}">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #0a0c0e;
+            color: #e8eef2;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.5;
+        }
+
+        :root {
+            --carbon-black: #121416;
+            --carbon-dark: #1e2124;
+            --carbon-medium: #2c2f33;
+            --carbon-light: #3a3f44;
+            --carbon-gray: #6c757d;
+            --gold: #F4C542;
+            --gold-dark: #e0aa2e;
+            --gold-glow: rgba(244, 197, 66, 0.25);
+            --gradient-gold: linear-gradient(135deg, #F4C542, #E0A82B);
+            --gradient-1: linear-gradient(145deg, #1b1f23 0%, #0f1113 100%);
+            --gradient-2: linear-gradient(45deg, #23272b, #1a1e22);
+        }
+
+        /* общие контейнеры */
+        .container {
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 0 40px;
+        }
+
+        /* узкий контейнер для новостей (1250px) */
+        .news-container {
+            max-width: 1250px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* ========== ШАПКА (полная ширина) ========== */
+        .navbar-full {
+            width: 100%;
+            background: #0c0f12;
+            border-bottom: 1px solid #2c2f33;
+            position: relative;
+            z-index: 20;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 24px 40px;
+            max-width: 1920px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-weight: 800;
+            font-size: 28px;
+            letter-spacing: 1px;
+            background: linear-gradient(145deg, #ffffff, #b0b7c0);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .logo span {
+            background: var(--gradient-gold);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 900;
+        }
+
+        /* ========== ЕДИНЫЙ ДЛИННЫЙ ЯЗЫЧЕК СО ВСЕМИ ВКЛАДКАМИ В СТРОКУ ========== */
+        .tabs-wrapper {
+            background: #0c0f12;
+            width: 100%;
+            position: relative;
+            z-index: 15;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+            display: flex;
+            justify-content: center;
+            padding: 0;
+        }
+
+        .single-tab {
+            background: #1a1d21;
+            border-radius: 0 0 18px 18px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 0 8px;
+            box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.3), 0 4px 12px rgba(0, 0, 0, 0.25);
+            border-bottom: 1px solid rgba(244, 197, 66, 0.35);
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .tab-link {
+            color: #cbd5e1;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            padding: 12px 24px;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border-radius: 0 0 12px 12px;
+            letter-spacing: 0.2px;
+        }
+
+        .tab-link i {
+            color: var(--gold);
+            font-size: 0.95rem;
+        }
+
+        .tab-link:hover {
+            color: var(--gold);
+            background: rgba(244, 197, 66, 0.08);
+            transform: translateY(-2px);
+        }
+
+        /* ========== HERO: персонаж + текст ========== */
+        .hero {
+            padding: 70px 0 90px;
+            background: radial-gradient(circle at 80% 20%, #1f1b14, #07090c 85%);
+            border-bottom: 1px solid #2f353b;
+        }
+
+        .hero-content {
+            display: flex;
+            align-items: center;
+            gap: 70px;
+            flex-wrap: wrap;
+        }
+
+        .hero-text {
+            flex: 1.2;
+        }
+
+        .hero-text h1 {
+            font-size: 58px;
+            font-weight: 800;
+            line-height: 1.15;
+            margin-bottom: 28px;
+            background: linear-gradient(to right, #ffffff, #e0e6f0);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-text .gold-accent {
+            background: var(--gradient-gold);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: inline-block;
+        }
+
+        .hero-text p {
+            font-size: 1.2rem;
+            color: #b4c1d0;
+            max-width: 550px;
+            margin-bottom: 36px;
+            line-height: 1.5;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 14px 40px;
+            background: var(--gradient-gold);
+            color: #111;
+            font-weight: 700;
+            text-decoration: none;
+            border-radius: 60px;
+            box-shadow: 0 10px 22px rgba(244, 197, 66, 0.3);
+            transition: 0.2s;
+            font-size: 1rem;
+        }
+
+        .btn:hover {
+            transform: scale(1.03);
+            box-shadow: 0 14px 28px rgba(244, 197, 66, 0.5);
+            background: #f5c95c;
+        }
+
+        /* Блок персонажа (игровой) */
+        .hero-character {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .character-card {
+            background: var(--gradient-1);
+            border-radius: 48px;
+            padding: 30px 20px;
+            text-align: center;
+            box-shadow: 0 30px 40px -20px rgba(0, 0, 0, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+            border: 1px solid #3a3f44;
+            transition: all 0.3s;
+            width: 100%;
+            max-width: 380px;
+        }
+
+        .character-card:hover {
+            border-color: var(--gold);
+            box-shadow: 0 30px 45px -18px rgba(244, 197, 66, 0.3);
+        }
+
+        .character-icon {
+            font-size: 130px;
+            color: var(--gold);
+            text-shadow: 0 0 15px rgba(244, 197, 66, 0.6);
+            margin-bottom: 20px;
+        }
+
+        .character-card h3 {
+            font-size: 28px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #F4C542, #ffde9c);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 12px;
+        }
+
+        .character-card p {
+            color: #9aaebf;
+            font-size: 0.9rem;
+        }
+
+        /* ========== СЕРАЯ РАЗДЕЛИТЕЛЬНАЯ ПОЛОСА ========== */
+        .divider-gray {
+            width: 100%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #3a4048, #2f353b, #3a4048, transparent);
+            margin: 0 auto;
+        }
+
+        /* ========== НОВОСТИ (1250px, без явных границ, мягкое увеличение и неоновое свечение) ========== */
+        .news-section {
+            padding: 70px 0 60px;
+            background-color: #0a0c0e;
+        }
+
+        .section-title {
+            font-size: 38px;
+            font-weight: 700;
+            margin-bottom: 50px;
+            text-align: center;
+            letter-spacing: -0.5px;
+            background: linear-gradient(145deg, #ffffff, #cbd5e6);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            position: relative;
+            display: inline-block;
+            width: 100%;
+        }
+
+        .section-title:after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background: var(--gold);
+            margin: 16px auto 0;
+            border-radius: 4px;
+        }
+
+        /* список новостей без внешних границ */
+        .news-list {
+            max-width: 1250px;
+            margin: 0 auto;
+            background: transparent;
+        }
+
+        .news-item {
+            padding: 38px 24px;
+            border-bottom: 1px solid #2c3138;
+            transition: all 0.35s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            border-radius: 28px;
+            margin: 0 -12px;
+            position: relative;
+        }
+
+        .news-item:last-child {
+            border-bottom: none;
+        }
+
+        /* Эффект при наведении: легкое увеличение и мягкое неоновое свечение */
+        .news-item:hover {
+            transform: scale(1.02);
+            background: rgba(244, 197, 66, 0.03);
+            border-bottom-color: rgba(244, 197, 66, 0.25);
+            box-shadow: 0 0 16px rgba(244, 197, 66, 0.2), 0 8px 20px rgba(0, 0, 0, 0.3);
+            margin: 0 -12px;
+            border-radius: 28px;
+        }
+
+        .news-header {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-bottom: 14px;
+        }
+
+        .news-badge {
+            background: rgba(244, 197, 66, 0.18);
+            color: var(--gold);
+            padding: 6px 16px;
+            border-radius: 40px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            border: 1px solid rgba(244, 197, 66, 0.4);
+        }
+
+        .news-date {
+            font-size: 0.85rem;
+            color: #7f8e9e;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .news-date i {
+            color: var(--gold);
+            font-size: 0.8rem;
+        }
+
+        .news-title {
+            font-size: 28px;
+            font-weight: 700;
+            margin: 12px 0 14px;
+            color: #f0f3f8;
+            transition: 0.2s;
+        }
+
+        .news-title:hover {
+            color: var(--gold);
+        }
+
+        .news-excerpt {
+            color: #a1b1c2;
+            font-size: 1rem;
+            line-height: 1.5;
+            max-width: 90%;
+        }
+
+        .news-meta-row {
+            margin-top: 20px;
+            display: flex;
+            gap: 28px;
+            font-size: 0.85rem;
+            color: #6f7e8f;
+        }
+
+        .news-meta-row i {
+            margin-right: 6px;
+            color: var(--gold);
+        }
+
+        /* ========== КАРТА ========== */
+        .map-section {
+            padding: 60px 0 80px;
+        }
+
+        .map-container {
+            width: 100%;
+            height: 380px;
+            background: var(--gradient-1);
+            border-radius: 48px;
+            border: 1px solid #333a42;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.02), 0 20px 35px -20px black;
+        }
+
+        .map-container i {
+            font-size: 70px;
+            color: var(--gold);
+            margin-bottom: 20px;
+            opacity: 0.85;
+        }
+
+        .map-container p {
+            color: #bfcedf;
+            font-size: 1.2rem;
+            font-weight: 500;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 12px 32px;
+            border-radius: 60px;
+            backdrop-filter: blur(4px);
+            border: 1px solid #4e5a66;
+        }
+
+        .map-container p i {
+            font-size: 1.1rem;
+            margin-right: 10px;
+            color: var(--gold);
+        }
+
+        /* ========== ФУТЕР ========== */
+        .footer {
+            background-color: #0c0f12;
+            border-top: 1px solid #262b30;
+            padding: 60px 0 30px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 40px;
+            margin-bottom: 50px;
+        }
+
+        .footer-col h4 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 24px;
+            color: #f0e9db;
+            letter-spacing: 0.5px;
+            border-left: 3px solid var(--gold);
+            padding-left: 14px;
+        }
+
+        .footer-col ul {
+            list-style: none;
+        }
+
+        .footer-col ul li {
+            margin-bottom: 14px;
+            color: #8597a6;
+            font-size: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .footer-col ul li i {
+            width: 24px;
+            color: var(--gold);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid #262b30;
+            color: #5f6f7e;
+            font-size: 14px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .social-icons i {
+            font-size: 24px;
+            margin-left: 20px;
+            color: #6c7e92;
+            transition: 0.2s;
+            cursor: pointer;
+        }
+
+        .social-icons i:hover {
+            color: var(--gold);
+            transform: translateY(-3px);
+        }
+
+        /* адаптивность */
+        @media (max-width: 1200px) {
+            .navbar {
+                padding: 20px 30px;
+            }
+            .hero-text h1 {
+                font-size: 46px;
+            }
+            .news-excerpt {
+                max-width: 100%;
+            }
+            .footer-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .tab-link {
+                padding: 10px 18px;
+                font-size: 0.9rem;
+            }
+            .single-tab {
+                gap: 4px;
+            }
+        }
+
+        @media (max-width: 800px) {
+            .hero-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            .hero-text p {
+                margin-left: auto;
+                margin-right: auto;
+            }
+            .single-tab {
+                width: 100%;
+                border-radius: 0 0 18px 18px;
+                justify-content: center;
+            }
+            .tab-link {
+                padding: 10px 14px;
+                font-size: 0.85rem;
+            }
+            .news-title {
+                font-size: 24px;
+            }
+            .footer-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+            .container, .news-container {
+                padding: 0 24px;
+            }
+            .news-meta-row {
+                flex-wrap: wrap;
+                gap: 16px;
+            }
+            .news-item:hover {
+                transform: scale(1.01);
+            }
+        }
+    </style>
 </head>
 <body>
-    <!-- Навигация -->
-    <div class="container">
-        <nav class="navbar">
+
+    <!-- ШАПКА ПОЛНОЙ ШИРИНЫ (логотип) -->
+    <div class="navbar-full">
+        <div class="navbar">
             <div class="logo"><span>G</span>Five • CLUB</div>
-            <div class="nav-links">
-                <a href="#">Главная</a>
-                <a href="#">Новости</a>
-                <a href="#">Турниры</a>
-                <a href="#">Контакты</a>
-            </div>
-        </nav>
+        </div>
     </div>
 
-    <!-- HERO (приветствие) с градиентом -->
+    <!-- ЕДИНЫЙ ДЛИННЫЙ ЯЗЫЧЕК: все вкладки в одну строку -->
+    <div class="tabs-wrapper">
+        <div class="single-tab">
+            <a href="#" class="tab-link"><i class="fas fa-home"></i> Главная</a>
+            <a href="#" class="tab-link"><i class="fas fa-newspaper"></i> Новости</a>
+            <a href="#" class="tab-link"><i class="fas fa-trophy"></i> Турниры</a>
+            <a href="#" class="tab-link"><i class="fas fa-address-card"></i> Контакты</a>
+            <a href="#" class="tab-link"><i class="fas fa-gamepad"></i> Киберспорт</a>
+            <a href="#" class="tab-link"><i class="fas fa-calendar-alt"></i> Расписание</a>
+        </div>
+    </div>
+
+    <!-- HERO: персонаж игры + приветственный текст -->
     <section class="hero">
         <div class="container hero-content">
             <div class="hero-text">
                 <h1>
                     Добро пожаловать в <br>
-                    <span class="blue">G</span><span class="orange">Five</span> — пространство <br>
-                    высоких скоростей
+                    <span class="gold-accent">G<span style="color: #F4C542;">F</span>ive</span> — <br>
+                    территорию киберспорта
                 </h1>
-                <p>Погрузись в мир киберспорта и мощных ПК. У нас лучшие конфигурации, безлимитный кофе и атмосфера, которая заряжает на победу.</p>
-                <a href="#" class="btn">Забронировать место <i class="fas fa-arrow-right" style="margin-left: 10px;"></i></a>
+                <p>Почувствуй мощь топовых конфигураций, атмосферу настоящих баталий и безлимитный кофе. Здесь твои победы становятся легендой. Бронируй лучшее место в клубе будущего!</p>
+                <a href="#" class="btn"><i class="fas fa-calendar-check"></i> Забронировать ПК</a>
             </div>
-            <div class="hero-visual">
-                <i class="fas fa-microchip"></i>
-                <div class="gradient-overlay"></div>
+            <div class="hero-character">
+                <div class="character-card">
+                    <div class="character-icon">
+                        <i class="fas fa-user-ninja"></i>
+                    </div>
+                    <h3>V | Cyberpunk 2077</h3>
+                    <p>Легенда Найт-Сити. Готов к любым кибер-сражениям. Стань частью элиты GFive.</p>
+                    <div style="margin-top: 12px; font-size: 0.75rem; color: #F4C542;"><i class="fas fa-star"></i> символ скорости и стиля</div>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- БЛОК НОВОСТЕЙ (3 штуки, вторая инвертирована) -->
+    <!-- СЕРАЯ РАЗДЕЛИТЕЛЬНАЯ ПОЛОСА -->
+    <div class="divider-gray"></div>
+
+    <!-- БЛОК НОВОСТЕЙ (ширина 1250px, без явных границ, увеличение + мягкое неоновое свечение) -->
     <section class="news-section">
-        <div class="container">
+        <div class="news-container">
             <h2 class="section-title">Актуальные события</h2>
-
-            <!-- Новость 1 -->
-            <div class="news-card">
-                <div class="news-image">
-                    <i class="fas fa-desktop"></i>
-                    <div class="gradient-overlay"></div>
-                </div>
-                <div class="news-text">
-                    <span class="badge">🔥 Только что</span>
-                    <h2>Открытие нового зала PREMIUM</h2>
-                    <p>10 новых машин на RTX 4090 + Intel i9-14900K. Мониторы 360 Гц, кресла Secretlab. Для первых 50 посетителей — час в подарок!</p>
-                    <div class="news-meta">
-                        <span><i class="far fa-calendar-alt"></i> 15 марта 2025</span>
-                        <span><i class="far fa-eye"></i> 342 просмотра</span>
+            <div class="news-list">
+                <!-- новость 1 -->
+                <div class="news-item">
+                    <div class="news-header">
+                        <span class="news-badge"><i class="fas fa-bolt"></i> Горячее обновление</span>
+                        <span class="news-date"><i class="far fa-calendar-alt"></i> 28 марта 2025</span>
+                    </div>
+                    <h3 class="news-title">Открытие PREMIUM-зала: RTX 5090 и новейшие мониторы 480 Гц</h3>
+                    <div class="news-excerpt">
+                        Эксклюзивная зона с 20 киберспортивными местами. Мониторы ASUS ROG Swift, процессоры Intel Core Ultra 9, периферия Razer. Первые 3 дня — скидка 30% для всех.
+                    </div>
+                    <div class="news-meta-row">
+                        <span><i class="far fa-eye"></i> 1.2k просмотров</span>
+                        <span><i class="fas fa-comment"></i> 45 отзывов</span>
                     </div>
                 </div>
-            </div>
-
-            <!-- Новость 2 (инвертированная) -->
-            <div class="news-card inverted">
-                <div class="news-image">
-                    <i class="fas fa-trophy"></i>
-                    <div class="gradient-overlay"></div>
-                </div>
-                <div class="news-text">
-                    <span class="badge">🏆 Киберспорт</span>
-                    <h2>Еженедельный турнир по CS2</h2>
-                    <p>Каждую субботу в 19:00. Призовой фонд — 30 000 руб. Регистрация на ресепшене или прямо в Telegram-боте. Участвуй и становись лучшим!</p>
-                    <div class="news-meta">
-                        <span><i class="far fa-clock"></i> 22 марта, 19:00</span>
-                        <span><i class="fas fa-users"></i> 24 слота</span>
+                <!-- новость 2 -->
+                <div class="news-item">
+                    <div class="news-header">
+                        <span class="news-badge"><i class="fas fa-trophy"></i> Турнир</span>
+                        <span class="news-date"><i class="far fa-clock"></i> 5 апреля, 18:00</span>
+                    </div>
+                    <h3 class="news-title">GFive Dota 2 Cup: призовой фонд 150 000₽</h3>
+                    <div class="news-excerpt">
+                        Командный турнир 5х5. Регистрация открыта до 3 апреля. Финал в нашем главном зале — прямая трансляция на большом экране. Участвуй и докажи, кто здесь настоящий чемпион.
+                    </div>
+                    <div class="news-meta-row">
+                        <span><i class="fas fa-users"></i> 32 команды максимум</span>
+                        <span><i class="fas fa-gift"></i> Призы от партнеров</span>
                     </div>
                 </div>
-            </div>
-
-            <!-- Новость 3 -->
-            <div class="news-card">
-                <div class="news-image">
-                    <i class="fas fa-wifi"></i>
-                    <div class="gradient-overlay"></div>
+                <!-- новость 3 -->
+                <div class="news-item">
+                    <div class="news-header">
+                        <span class="news-badge"><i class="fas fa-moon"></i> Ночной движ</span>
+                        <span class="news-date"><i class="far fa-calendar-alt"></i> Каждые выходные</span>
+                    </div>
+                    <h3 class="news-title">Ночной марафон: безлимит до утра за 599₽ + энергетик в подарок</h3>
+                    <div class="news-excerpt">
+                        С 00:00 до 09:00 безлимитный доступ, анти-сон зона с кофеваркой и вкусными снеками. Приведи друга — получи дополнительный час бесплатно.
+                    </div>
+                    <div class="news-meta-row">
+                        <span><i class="fas fa-tag"></i> Акция до конца апреля</span>
+                        <span><i class="fas fa-headset"></i> VIP-зона включена</span>
+                    </div>
                 </div>
-                <div class="news-text">
-                    <span class="badge">⚡ Акция</span>
-                    <h2>Ночной марафон: безлимит до утра</h2>
-                    <p>С 00:00 до 08:00 фиксированная цена 599 ₽. Включает энергитики и анти-сон зону. Приведи друга — получи 2 часа ночью бесплатно.</p>
-                    <div class="news-meta">
-                        <span><i class="far fa-calendar-alt"></i> Каждую пятницу и субботу</span>
+                <!-- новость 4 -->
+                <div class="news-item">
+                    <div class="news-header">
+                        <span class="news-badge"><i class="fas fa-code-branch"></i> Киберспорт</span>
+                        <span class="news-date"><i class="far fa-calendar-alt"></i> 12 апреля</span>
+                    </div>
+                    <h3 class="news-title">Открытый турнир по Valorant: мастер-класс от игроков Team Empire</h3>
+                    <div class="news-excerpt">
+                        Встреча с профессиональными киберспортсменами, разбор тактик, розыгрыш мерча. Вход свободный для всех посетителей клуба в день турнира.
+                    </div>
+                    <div class="news-meta-row">
+                        <span><i class="fas fa-map-marker-alt"></i> Главная арена GFive</span>
+                        <span><i class="fas fa-ticket-alt"></i> Регистрация на ресепшн</span>
                     </div>
                 </div>
             </div>
         </div>
     </section>
+
+    <!-- СЕРАЯ РАЗДЕЛИТЕЛЬНАЯ ПОЛОСА -->
+    <div class="divider-gray"></div>
 
     <!-- БЛОК КАРТЫ -->
     <section class="map-section">
@@ -104,56 +676,57 @@
             <div class="map-container">
                 <i class="fas fa-map-marked-alt"></i>
                 <p><i class="fas fa-location-dot"></i> г. Москва, ул. Киберспортивная, д. 4, стр. 2 (вход с торца)</p>
-                <div style="margin-top: 20px; color: #6a7b8a; font-size: 14px;">метро «Технопарк», 5 минут пешком</div>
-                <!-- Здесь могла бы быть настоящая карта (iframe 2gis или Яндекс) -->
+                <div style="margin-top: 18px; color: #a5b7ca; font-size: 0.85rem;">🚇 метро «Технопарк», 4 минуты пешком | парковка для гостей</div>
             </div>
         </div>
     </section>
 
-    <!-- ФУТЕР (техническая информация для компьютерного клуба) -->
+    <!-- СЕРАЯ ПОЛОСА (разделение перед футером) -->
+    <div class="divider-gray"></div>
+
+    <!-- ФУТЕР (техническая информация) -->
     <footer class="footer">
         <div class="container">
             <div class="footer-grid">
                 <div class="footer-col">
-                    <h4>СИСТЕМНЫЕ ТРЕБОВАНИЯ</h4>
+                    <h4>СИСТЕМНЫЕ ХАРАКТЕРИСТИКИ</h4>
                     <ul>
-                        <li><i class="fas fa-microchip"></i> Видеокарты: RTX 4080 / RX 7900 XT</li>
-                        <li><i class="fas fa-memory"></i> Процессоры: i7-13700K / Ryzen 7 7800X3D</li>
-                        <li><i class="fas fa-headphones"></i> Гарнитуры: HyperX Cloud II</li>
-                        <li><i class="fas fa-keyboard"></i> Периферия: Logitech G Pro X</li>
+                        <li><i class="fas fa-microchip"></i> Видеокарты: RTX 4090 / RTX 5080</li>
+                        <li><i class="fas fa-memory"></i> Процессоры: i9-14900K / Ryzen 9 7950X3D</li>
+                        <li><i class="fas fa-headphones"></i> Гарнитуры: HyperX Cloud III / SteelSeries</li>
+                        <li><i class="fas fa-keyboard"></i> Периферия: Razer Huntsman / Logitech G Pro</li>
                     </ul>
                 </div>
                 <div class="footer-col">
                     <h4>ДЛЯ КЛУБА</h4>
                     <ul>
-                        <li><i class="fas fa-clock"></i> Время работы: круглосуточно</li>
-                        <li><i class="fas fa-plug"></i> Напряжение: стабилизаторы 220В</li>
-                        <li><i class="fas fa-shield-alt"></i> Защита DDoS на серверах</li>
-                        <li><i class="fas fa-tachometer-alt"></i> Скорость интернета: 1 Гбит/с</li>
+                        <li><i class="fas fa-clock"></i> Время работы: круглосуточно 24/7</li>
+                        <li><i class="fas fa-plug"></i> Стабилизаторы напряжения + ИБП</li>
+                        <li><i class="fas fa-shield-alt"></i> Защита от DDoS, игровые серверы</li>
+                        <li><i class="fas fa-tachometer-alt"></i> Интернет: 2 Гбит/с, оптоволокно</li>
                     </ul>
                 </div>
                 <div class="footer-col">
                     <h4>ПОЛЬЗОВАТЕЛЯМ</h4>
                     <ul>
-                        <li><i class="fas fa-id-card"></i> Чип-ключи доступа 24/7</li>
-                        <li><i class="fas fa-coffee"></i> Кофемашина Jura (бесплатно)</li>
-                        <li><i class="fas fa-wind"></i> Мощная вентиляция</li>
-                        <li><i class="fas fa-lock"></i> Сейф для вещей</li>
+                        <li><i class="fas fa-id-card"></i> Чип-ключи 24/7</li>
+                        <li><i class="fas fa-coffee"></i> Кофемашина Jura, чай, снеки</li>
+                        <li><i class="fas fa-wind"></i> Климат-контроль, вентиляция</li>
+                        <li><i class="fas fa-lock"></i> Индивидуальные сейфы для вещей</li>
                     </ul>
                 </div>
                 <div class="footer-col">
-                    <h4>СВЯЗЬ</h4>
+                    <h4>СВЯЗЬ И СОЦСЕТИ</h4>
                     <ul>
                         <li><i class="fas fa-phone-alt"></i> +7 (495) 777-77-07</li>
-                        <li><i class="fas fa-envelope"></i> club@carboneum.ru</li>
-                        <li><i class="fab fa-telegram"></i> t.me/carboneum_club</li>
-                        <li><i class="fab fa-discord"></i> discord.gg/carboneum</li>
+                        <li><i class="fas fa-envelope"></i> club@gfive.ru</li>
+                        <li><i class="fab fa-telegram"></i> t.me/gfive_club</li>
+                        <li><i class="fab fa-discord"></i> discord.gg/gfive</li>
                     </ul>
                 </div>
             </div>
-
             <div class="footer-bottom">
-                <div>© 2025 Carboneum Computer Club. Все для побед.</div>
+                <div>© 2025 GFive Computer Club — территория высоких скоростей и киберспорта.</div>
                 <div class="social-icons">
                     <i class="fab fa-vk"></i>
                     <i class="fab fa-telegram"></i>
@@ -164,9 +737,9 @@
         </div>
     </footer>
 
-    <!-- Небольшой декоративный элемент градиента (для атмосферы) -->
-    <div style="position: fixed; bottom: 30px; right: 30px; opacity: 0.3; pointer-events: none;">
-        <div style="width: 200px; height: 200px; background: radial-gradient(circle, #2b7fff20, transparent 70%);"></div>
+    <!-- декоративный элемент (желтое свечение) -->
+    <div style="position: fixed; bottom: 30px; right: 30px; opacity: 0.25; pointer-events: none;">
+        <div style="width: 220px; height: 220px; background: radial-gradient(circle, #F4C54220, transparent 70%); border-radius: 50%;"></div>
     </div>
 </body>
 </html>
